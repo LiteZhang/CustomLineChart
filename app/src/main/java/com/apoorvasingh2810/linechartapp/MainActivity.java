@@ -1,5 +1,6 @@
 package com.apoorvasingh2810.linechartapp;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -49,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         LineDataSet set1=new LineDataSet(yValues, "Data Set 1");
 
         set1.setFillAlpha(110);
+        set1.setColor(Color.CYAN);  //Changing Color of Line
+        set1.setLineWidth(3f);
+        set1.setValueTextSize(12f);
+        set1.setValueTextColor(Color.BLACK);
+
+
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
