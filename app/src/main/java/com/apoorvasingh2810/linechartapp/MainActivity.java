@@ -1,9 +1,12 @@
 package com.apoorvasingh2810.linechartapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LineChart mChart;
 
+    Button btnSecondActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,16 @@ public class MainActivity extends AppCompatActivity {
 
     mChart=(LineChart)findViewById(R.id.lineChart);
 
-//    mChart.setOnChartGestureListener(MainActivity.this);
+    btnSecondActivity=(Button)findViewById(R.id.btnSecondActivity);
+
+        btnSecondActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,SecondActivity.class);
+                startActivity(intent);
+            }
+        });
+    //    mChart.setOnChartGestureListener(MainActivity.this);
 //    mChart.setOnChartValueSelectedListener(MainActivity.this);
 
     mChart.setDragEnabled(true);
