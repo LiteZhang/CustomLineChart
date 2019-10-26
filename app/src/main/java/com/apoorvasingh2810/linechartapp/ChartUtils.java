@@ -14,10 +14,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +40,8 @@ public class ChartUtils {
     public static int brokenLine = 100;
     public static int curve = 200;
     public static int mLineType = brokenLine;
+
+    private static final String[] xValue = new String[]{"120","100","80","60","40","20","0"};
 
     /**
      * 初始化图表
@@ -228,6 +232,31 @@ public class ChartUtils {
         dataSets.add(rpmDataSet);
         dataSets.add(avgRpmDataSet);
 
+        List<String> list = new ArrayList<>();
+        for (int i = 1; i <= 120; i++) {
+            list.add(String.valueOf(i));
+        }
+        Collections.reverse(list);
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
+
+//        chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+//
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//
+//                Log.i("lite", " count  " + count);
+//                Log.i("lite", " xValue len  " + xValue.length);
+//                for (int i = 0; i < xValue.length; i++) {
+//                    Log.i("lite", " xValue [" + i + "] " + xValue[i]);
+//                }
+//                int number = (int)(value%20);
+//                if(number > 0) {
+//                    count++;
+//                }
+//                return xValue[count];
+//            }
+//        });
         LineData data = new LineData(dataSets);
         chart.setData(data);
     }
@@ -275,12 +304,9 @@ public class ChartUtils {
 
     public static void setBPMChartData(LineChart chart, List<Entry> bpm) {
         LineDataSet bpmDataSet = new LineDataSet(bpm, "BPM");
-//        LineDataSet avgRpmDataSet = new LineDataSet(avgRpm, "AVG_RPM");
         bpmDataSet.setFillAlpha(110);
-//        avgRpmDataSet.setFillAlpha(110);
 
         bpmDataSet.setColor(Color.parseColor("#1F77B4"));
-//        avgRpmDataSet.setColor(Color.parseColor("#FF7F0E"));
 
         bpmDataSet.setLineWidth(1f);
         bpmDataSet.setValueTextSize(12f);
@@ -292,15 +318,15 @@ public class ChartUtils {
         bpmDataSet.setValueTextColor(Color.parseColor("#FFFFFF"));
         // 不显示定位线
         bpmDataSet.setHighlightEnabled(true);
-
-//        avgRpmDataSet.setDrawCircles(false);
-//        avgRpmDataSet.setDrawValues(false);
-//        avgRpmDataSet.setValueTextColor(Color.parseColor("#FFFFFF"));
-        // 不显示定位线
-//        avgRpmDataSet.setHighlightEnabled(true);
+        List<String> list = new ArrayList<>();
+        for (int i = 1; i <= 120; i++) {
+            list.add(String.valueOf(i));
+        }
+        Collections.reverse(list);
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(bpmDataSet);
-//        dataSets.add(avgRpmDataSet);
 
         LineData data = new LineData(dataSets);
         chart.setData(data);
