@@ -1,22 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.apoorvasingh2810.linechartapp.MainActivity">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnSecondActivity"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Second Activity"/>
+        android:layout_height="match_parent"
+        tools:context="com.apoorvasingh2810.linechartapp.MainActivity">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnSecondActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fast_slow_chart"
+            android:background="@color/colorPrimary"
+            android:text="Second Activity"
+            android:visibility="gone" />
 
-    </com.github.mikephil.charting.charts.LineChart>
+        <!--    <HorizontalScrollView
+                android:id="@+id/chart_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">-->
 
-</RelativeLayout>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/rpm_chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/bpm_chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/rpm_chart"
+            android:layout_marginTop="20dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/apm_chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/bpm_chart"
+            android:layout_marginTop="20dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/rpm_pattern_chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/apm_chart"
+            android:layout_marginTop="20dp"/>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/fast_slow_chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/rpm_pattern_chart"
+            android:layout_marginTop="20dp"/>
+        <!--    </HorizontalScrollView>-->
+
+    </RelativeLayout>
+</ScrollView>
