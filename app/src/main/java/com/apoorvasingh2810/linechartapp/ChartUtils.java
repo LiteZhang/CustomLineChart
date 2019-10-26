@@ -14,9 +14,13 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.Utils;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -239,24 +243,6 @@ public class ChartUtils {
         Collections.reverse(list);
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
-
-//        chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
-//
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//
-//                Log.i("lite", " count  " + count);
-//                Log.i("lite", " xValue len  " + xValue.length);
-//                for (int i = 0; i < xValue.length; i++) {
-//                    Log.i("lite", " xValue [" + i + "] " + xValue[i]);
-//                }
-//                int number = (int)(value%20);
-//                if(number > 0) {
-//                    count++;
-//                }
-//                return xValue[count];
-//            }
-//        });
         LineData data = new LineData(dataSets);
         chart.setData(data);
     }
@@ -302,8 +288,8 @@ public class ChartUtils {
         setChartData(chart, values);
     }
 
-    public static void setBPMChartData(LineChart chart, List<Entry> bpm) {
-        LineDataSet bpmDataSet = new LineDataSet(bpm, "BPM");
+    public static void setSingleLineChartData(LineChart chart, List<Entry> entryList, String label) {
+        LineDataSet bpmDataSet = new LineDataSet(entryList, label);
         bpmDataSet.setFillAlpha(110);
 
         bpmDataSet.setColor(Color.parseColor("#1F77B4"));
@@ -325,6 +311,42 @@ public class ChartUtils {
         Collections.reverse(list);
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(bpmDataSet);
+
+        LineData data = new LineData(dataSets);
+        chart.setData(data);
+    }
+
+    public static void setMovementChartData(LineChart chart, List<Entry> movemoentList, String label) {
+        LineDataSet bpmDataSet = new LineDataSet(movemoentList, label);
+        bpmDataSet.setFillAlpha(110);
+
+        bpmDataSet.setColor(Color.parseColor("#1F77B4"));
+
+        bpmDataSet.setLineWidth(1f);
+        bpmDataSet.setValueTextSize(12f);
+        bpmDataSet.setValueTextColor(Color.BLACK);
+
+        bpmDataSet.setDrawCircles(false);
+        // 不显示坐标点的数据
+        bpmDataSet.setDrawValues(false);
+        bpmDataSet.setValueTextColor(Color.parseColor("#FFFFFF"));
+        // 不显示定位线
+        bpmDataSet.setHighlightEnabled(true);
+
+//        d*0.0514 + 0.4
+        List<String> list = new ArrayList<>();
+        for (int i = 1; i <= 93; i++) {
+            float dd = (float)(i*0.0514 + 0.4);
+            NumberFormat nf = NumberFormat.getNumberInstance();
+            nf.setMaximumFractionDigits(2);
+            list.add(String.valueOf(nf.format(dd)));
+        }
+//        Collections.reverse(list);
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
+
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(bpmDataSet);
 
