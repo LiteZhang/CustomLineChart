@@ -1,19 +1,40 @@
 package com.apoorvasingh2810.linechartapp;
 
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.apoorvasingh2810.linechartapp.bean.DataBean;
 import com.apoorvasingh2810.linechartapp.util.BluetoothHelper;
 import com.apoorvasingh2810.linechartapp.util.PermissionHelper;
+import com.apoorvasingh2810.linechartapp.util.json.GsonUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -943,12 +964,18 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnSecondActivity;
     private static final String BLUETOOTH_MAC = "";
-
     private BluetoothHelper bluetoothHelper;
     private PermissionHelper permissionHelper;
     private boolean isSearching = false;
     private ArrayList<BluetoothHelper.BluetoothInfo> infoList  = new ArrayList<>(8);
+    private String mContent;
 
+    public static final String MAC = "B8:27:EB:0E:36:87";
+    public static final String CLASSIC = "00001101-0000-1000-8000-00805F9B34FB";
+    public static final String SERVICE = "FFA5417A-2C26-43EA-8A6B-4BD5C51ADBCF";
+    public static final String CHARACTER = "32B82DB5-79CA-451B-8C80-A9B4C2AD5E49";
+
+//    String content;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1085,22 +1112,190 @@ public class MainActivity extends AppCompatActivity {
                 bluetoothHelper.setDiscoverable(false, 1);
             }
         }
-//        permissionHelper = new PermissionHelper(this)
-//                .addPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-//                .addTipsDialog(DialogHelper.makeDialog(getContext(), "定位权限不可用", "需要使用定位权限才能获取蓝牙信息", false,
-//                        "立即打开", new DialogHelper.OnClickListener() {
-//                            @Override
-//                            public void onClick() {
-//                                PermissionHelper.getPermissionInFragment(SearchFragment.this, Manifest.permission.ACCESS_COARSE_LOCATION, 1000);
-//                            }
-//                        }, "取消", null))
-//                .addWarnDialog(DialogHelper.makeGoToSettingDialog(getContext(), "定位权限不可用", "请在应用设置-权限-中，允许定位权限", false));
+
+        /*============================================================*/
+        BluetoothHelper.OnConnectListener onConnectListener = new BluetoothHelper.OnConnectListener() {
+            @Override
+            public void onConnected() {
+                Log.i("lite", "##########  onConnected ##########");
+                try{
+                    Thread.sleep(3000);
+                } catch (Exception ex) {
+
+                }
+                readOnClassicMode();
+//                loadingDialog.dismiss();
+//
+//                connectBtn.setText(R.string.connect_disconnect);
+//                findSupportUUID.setText(R.string.connect_disconnect);
+//
+//                if (getActivity() instanceof MainActivity) {
+//                    if (classicBtn.isChecked()) {
+//                        ((MainActivity) getActivity()).startTransfer(name, mac, BluetoothHelper.BluetoothInfo.SUPPORT_TYPE_CLASSIC, UUID.fromString(classic), null, null);
+//
+//                    }
+//                }
+            }
+
+            @Override
+            public void onFoundBleUUIDs(List<BluetoothGattService> serviceList) {
+                Log.i("lite", "##########  onFoundBleUUIDs ##########");
+//                startTransferBtn.setEnabled(true);
+//                //TODO
+//                for (BluetoothGattService service : serviceList) {
+//                    Log.e("TAG", service.getUuid().toString());
+//                    List<BluetoothGattCharacteristic> characterList = service.getCharacteristics();
+//                    for (BluetoothGattCharacteristic character : characterList) {
+//                        Log.e("TAG", "\t" + character.getUuid().toString());
+//                    }
+//                }
+//                try {
+//                    if (!serviceUUIDEditText.getText().toString().equals(MainActivity.DEFAULT_SERVICE_UUID))
+//                        serviceUUIDEditText.setText(serviceList.get(0).getUuid().toString());
+//                    if (!characterUUIDEditText.getText().toString().equals(MainActivity.DEFAULT_CHARACTER_UUID))
+//                        characterUUIDEditText.setText(serviceList.get(0).getCharacteristics().get(0).getUuid().toString());
+//                } catch (NullPointerException e) {
+//                    e.printStackTrace();
+//                }
+            }
+
+            @Override
+            public void onError() {
+                Log.i("lite", "##########  onError ##########");
+//                loadingDialog.dismiss();
+//
+//                connectBtn.setText(R.string.connect_connect);
+//                findSupportUUID.setText(R.string.connect_finduuids);
+//                startTransferBtn.setEnabled(false);
+//
+//                DialogHelper.makeDialog(getContext(), "失败", "连接失败").show();
+            }
+
+            @Override
+            public void onDisconnect() {
+                Log.i("lite", "##########  onDisconnect ##########");
+//                connectBtn.setText(R.string.connect_connect);
+//                findSupportUUID.setText(R.string.connect_finduuids);
+//                startTransferBtn.setEnabled(false);
+//                if (getActivity() instanceof MainActivity)
+//                    ((MainActivity) getActivity()).stopTransfer();
+            }
+        };
+        /*============================================================*/
+
+        int type = BluetoothHelper.CLASSIC_CONNECT_AS_CLIENT;
+        Log.i("lite", "##########  start connect ##########");
+        bluetoothHelper.connect(MAC, UUID.fromString(CLASSIC), type, onConnectListener);
+    }
+
+    private void readOnClassicMode() {
+        bluetoothHelper.read(new BluetoothHelper.OnReadListener() {
+            @Override
+            public void onReceived(byte[] data) {
+                Log.i("lite", "##########  onReceived ##########");
+                String text = decodeData(data);
+                mContent += text;
+                Log.i("lite", "=====>>>> READ : " + mContent);
+//                writeFileSdcard("lite123456.txt", text);
+                mContent = mContent.substring(mContent.indexOf("{"));
+                String jsonStr = mContent.substring(0, mContent.indexOf("}")+1);
+                mContent = mContent.substring(mContent.indexOf("}")+1);
+                Log.i("lite", "=====>>>> jsonString : " + jsonStr);
+//                Log.i("lite", "=====>>>> READ : " + text);
+                DataBean bean = new Gson().fromJson(jsonStr, DataBean.class);
+
+                Log.i("lite", "=====>>>> getAMP : " + bean.getAMP());
+                Log.i("lite", "=====>>>> getBPM : " + bean.getBPM());
+                Log.i("lite", "=====>>>> getDISTANCE : " + bean.getDISTANCE());
+//                readEditText.setText(text);
+                //  float f = Float.parseFloat(str)
+            }
+
+            @Override
+            public void onError() {
+                Log.i("lite", "##########  onError ##########");
+            }
+
+            @Override
+            public void onClose() {
+                Log.i("lite", "##########  onClose ##########");
+            }
+        });
+    }
+
+    public void saveToSDCard(String filename,String content) throws Exception{
+        File file=new File("/mnt/sdcard", filename);
+        OutputStream out=new FileOutputStream(file);
+        out.write(content.getBytes());
+        out.close();
+    }
+
+    /**
+     * 将内容写入sd卡中
+     * @param filename 要写入的文件名
+     * @param content  待写入的内容
+     * @throws IOException
+     */
+    public static void writeExternal(Context context, String filename, String content) throws IOException {
+
+        //获取外部存储卡的可用状态
+        String storageState = Environment.getExternalStorageState();
+
+        //判断是否存在可用的的SD Card
+        if (storageState.equals(Environment.MEDIA_MOUNTED)) {
+
+            //路径： /storage/emulated/0/Android/data/com.yoryky.demo/cache/yoryky.txt
+            filename = storageState  + File.separator + filename;
+
+            FileOutputStream outputStream = new FileOutputStream(filename);
+            outputStream.write(content.getBytes());
+            outputStream.close();
+        }
+    }
+
+    public void writeFileSdcard(String fileName,String message){
+        try{
+            //FileOutputStream fout = openFileOutput(fileName, MODE_PRIVATE);
+            FileOutputStream fout = new FileOutputStream(fileName);
+            byte [] bytes = message.getBytes();
+
+            fout.write(bytes);
+            fout.close();
+        }
+
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    //读取/写入框中的数据和要传输的数据之间的转换
+    private String decodeData(byte[] data) {
+        return new String(data);
+    }
+
+    private byte[] encodeData(String data) {
+        return data.getBytes();
     }
 
     //切换到后台停止扫描
     @Override
     public void onPause() {
         super.onPause();
+        String en=Environment.getExternalStorageState();
+        //获取SDCard状态,如果SDCard插入了手机且为非写保护状态
+        if(en.equals(Environment.MEDIA_MOUNTED)){
+            try {
+//                saveToSDCard("123.txt", content);
+                writeExternal(this, "123.txt", mContent);
+                Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "保存失败",  Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            //提示用户SDCard不存在或者为写保护状态
+            Toast.makeText(getApplicationContext(), "SDCard不存在或者为写保护状态", Toast.LENGTH_SHORT).show();
+        }
 
         if (isSearching) {
             if (bluetoothHelper != null) {
