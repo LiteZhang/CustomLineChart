@@ -848,7 +848,7 @@ public class BluetoothHelper {
                 public void run() {
                     try {
                         InputStream inputStream = classicClient_Socket.getInputStream();
-                        byte[] buffer = new byte[1024];
+                        byte[] buffer = new byte[8*1024];
                         int bytes = 0;
                         while ((bytes = inputStream.read(buffer)) != -1) {
                             //经测试，read方法一直不会停止（除非关闭连接时抛出异常），没有读到数据时不应该调用用户回调

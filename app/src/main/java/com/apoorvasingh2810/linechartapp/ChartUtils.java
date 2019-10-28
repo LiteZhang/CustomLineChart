@@ -143,18 +143,21 @@ public class ChartUtils {
         LineDataSet lineDataSet;
 
         if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
+            Log.i("lite", "setChartData  chart.getData() != null #########");
             lineDataSet = (LineDataSet) chart.getData().getDataSetByIndex(0);
             lineDataSet.setValues(values);
             chart.getData().notifyDataChanged();
             chart.notifyDataSetChanged();
             //设置在曲线图中显示的最大数量
-            chart.setVisibleXRangeMaximum(10);
+//            chart.setVisibleXRangeMaximum(10);
             //移到某个位置
             chart.moveViewToX(chart.getData().getEntryCount() - 5);
         } else {
+            Log.i("lite", "setChartData  chart.getData() == null @@@@@@@");
             lineDataSet = new LineDataSet(values, "");
             // 设置曲线颜色
-            lineDataSet.setColor(Color.parseColor("#FFFFFF"));
+//            lineDataSet.setColor(Color.parseColor("#FFFFFF"));
+            lineDataSet.setColor(Color.parseColor("#1F77B4"));
             // 设置平滑曲线
 //            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             // 不显示坐标点的小圆点
@@ -196,7 +199,14 @@ public class ChartUtils {
         xAxis.setTextColor(Color.RED);
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(true);
-        Matrix matrix = new Matrix();
+        List<String> list = new ArrayList<>();
+        for (int i = 1; i <= 120; i++) {
+            list.add(String.valueOf(i));
+        }
+//        Collections.reverse(list);
+//        xAxis = chart.getXAxis();
+//        xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
+//        Matrix matrix = new Matrix();
 //        //x轴缩放1.5倍
 //        matrix.postScale(1.5f, 1f);
 //        //在图表动画显示之前进行缩放
@@ -206,6 +216,7 @@ public class ChartUtils {
         chart.invalidate();
         return chart;
     }
+
 
     public static void setRPMChartData(LineChart chart, List<Entry> rpm, List<Entry> avgRpm) {
         LineDataSet rpmDataSet = new LineDataSet(rpm, "RPM");
@@ -244,7 +255,14 @@ public class ChartUtils {
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
         LineData data = new LineData(dataSets);
+//        chart.getData().notifyDataChanged();
+//        if(chart.getData() != null) {
+//            chart.getData().notifyDataChanged();
+//        }
+
         chart.setData(data);
+        chart.notifyDataSetChanged();
+        chart.invalidate();
     }
 
     /**
@@ -289,51 +307,66 @@ public class ChartUtils {
     }
 
     public static void setSingleLineChartData(LineChart chart, List<Entry> entryList, String label) {
-        LineDataSet bpmDataSet = new LineDataSet(entryList, label);
-        bpmDataSet.setFillAlpha(110);
+        LineDataSet lineDataSet;
+        if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
+            lineDataSet = (LineDataSet) chart.getData().getDataSetByIndex(0);
+            lineDataSet.setValues(entryList);
+            chart.getData().notifyDataChanged();
+            chart.notifyDataSetChanged();
+            //设置在曲线图中显示的最大数量
+//            chart.setVisibleXRangeMaximum(10);
+            //移到某个位置
+            chart.moveViewToX(chart.getData().getEntryCount() - 5);
+        } else {
+            lineDataSet = new LineDataSet(entryList, label);
+            lineDataSet.setFillAlpha(110);
 
-        bpmDataSet.setColor(Color.parseColor("#1F77B4"));
+            lineDataSet.setColor(Color.parseColor("#1F77B4"));
 
-        bpmDataSet.setLineWidth(1f);
-        bpmDataSet.setValueTextSize(12f);
-        bpmDataSet.setValueTextColor(Color.BLACK);
+            lineDataSet.setLineWidth(1f);
+            lineDataSet.setValueTextSize(12f);
+            lineDataSet.setValueTextColor(Color.BLACK);
 
-        bpmDataSet.setDrawCircles(false);
-        // 不显示坐标点的数据
-        bpmDataSet.setDrawValues(false);
-        bpmDataSet.setValueTextColor(Color.parseColor("#FFFFFF"));
-        // 不显示定位线
-        bpmDataSet.setHighlightEnabled(true);
-        List<String> list = new ArrayList<>();
-        for (int i = 1; i <= 120; i++) {
-            list.add(String.valueOf(i));
+            lineDataSet.setDrawCircles(false);
+            // 不显示坐标点的数据
+            lineDataSet.setDrawValues(false);
+            lineDataSet.setValueTextColor(Color.parseColor("#FFFFFF"));
+            // 不显示定位线
+            lineDataSet.setHighlightEnabled(true);
+            List<String> list = new ArrayList<>();
+            for (int i = 1; i <= 120; i++) {
+                list.add(String.valueOf(i));
+            }
+            Collections.reverse(list);
+            XAxis xAxis = chart.getXAxis();
+            xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+            dataSets.add(lineDataSet);
+
+            LineData data = new LineData(dataSets);
+
+            chart.notifyDataSetChanged();
+            chart.invalidate();
+            chart.setData(data);
         }
-        Collections.reverse(list);
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(bpmDataSet);
-
-        LineData data = new LineData(dataSets);
-        chart.setData(data);
     }
 
     public static void setMovementChartData(LineChart chart, List<Entry> movemoentList, String label) {
-        LineDataSet bpmDataSet = new LineDataSet(movemoentList, label);
-        bpmDataSet.setFillAlpha(110);
+        LineDataSet lineDataSet = new LineDataSet(movemoentList, label);
+        lineDataSet.setFillAlpha(110);
 
-        bpmDataSet.setColor(Color.parseColor("#1F77B4"));
+        lineDataSet.setColor(Color.parseColor("#1F77B4"));
 
-        bpmDataSet.setLineWidth(1f);
-        bpmDataSet.setValueTextSize(12f);
-        bpmDataSet.setValueTextColor(Color.BLACK);
+        lineDataSet.setLineWidth(1f);
+        lineDataSet.setValueTextSize(12f);
+        lineDataSet.setValueTextColor(Color.BLACK);
 
-        bpmDataSet.setDrawCircles(false);
+        lineDataSet.setDrawCircles(false);
         // 不显示坐标点的数据
-        bpmDataSet.setDrawValues(false);
-        bpmDataSet.setValueTextColor(Color.parseColor("#FFFFFF"));
+        lineDataSet.setDrawValues(false);
+        lineDataSet.setValueTextColor(Color.parseColor("#FFFFFF"));
         // 不显示定位线
-        bpmDataSet.setHighlightEnabled(true);
+        lineDataSet.setHighlightEnabled(true);
 
 //        d*0.0514 + 0.4
         List<String> list = new ArrayList<>();
@@ -348,9 +381,11 @@ public class ChartUtils {
         xAxis.setValueFormatter(new IndexAxisValueFormatter(list));
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(bpmDataSet);
+        dataSets.add(lineDataSet);
 
         LineData data = new LineData(dataSets);
+        chart.notifyDataSetChanged();
+        chart.invalidate();
         chart.setData(data);
     }
 }

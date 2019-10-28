@@ -1,15 +1,16 @@
 package com.apoorvasingh2810.linechartapp;
 
-import android.bluetooth.BluetoothGattCharacteristic;
+import android.Manifest;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,20 +19,14 @@ import android.widget.Toast;
 import com.apoorvasingh2810.linechartapp.bean.DataBean;
 import com.apoorvasingh2810.linechartapp.util.BluetoothHelper;
 import com.apoorvasingh2810.linechartapp.util.PermissionHelper;
-import com.apoorvasingh2810.linechartapp.util.json.GsonUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +34,7 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
 
-    float[] RPM =  new float[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,
+    float[] RPM = new float[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0,
             0,
             0,
@@ -967,15 +962,25 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothHelper bluetoothHelper;
     private PermissionHelper permissionHelper;
     private boolean isSearching = false;
-    private ArrayList<BluetoothHelper.BluetoothInfo> infoList  = new ArrayList<>(8);
+    private ArrayList<BluetoothHelper.BluetoothInfo> infoList = new ArrayList<>(8);
     private String mContent;
 
+    ArrayList<Entry> rpmValues = new ArrayList<>();
+    ArrayList<Entry> avgRpmValues = new ArrayList<>();
+    ArrayList<Entry> bmpValues = new ArrayList<>();
+    ArrayList<Entry> apmValues = new ArrayList<>();
+    ArrayList<Entry> rpmPatternValues = new ArrayList<>();
+    ArrayList<Entry> distanceValues = new ArrayList<>();
+    ArrayList<Entry> fastValues = new ArrayList<>();
+    ArrayList<Entry> slowValues = new ArrayList<>();
+
+    int drawCount = 0;
     public static final String MAC = "B8:27:EB:0E:36:87";
     public static final String CLASSIC = "00001101-0000-1000-8000-00805F9B34FB";
     public static final String SERVICE = "FFA5417A-2C26-43EA-8A6B-4BD5C51ADBCF";
     public static final String CHARACTER = "32B82DB5-79CA-451B-8C80-A9B4C2AD5E49";
 
-//    String content;
+    //    String content;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -999,6 +1004,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    1);
+        }
+
         ChartUtils.initNewChart(mRpmChart);
         ChartUtils.initNewChart(mBpmChart);
         ChartUtils.initNewChart(mApmChart);
@@ -1007,64 +1019,64 @@ public class MainActivity extends AppCompatActivity {
         ChartUtils.initNewChart(mFastChart);
         ChartUtils.initNewChart(mSlowChart);
 
-        ArrayList<Entry> rpmValues = new ArrayList<>();
-        for (int i = 0; i< RPM.length; i++) {
-            rpmValues.add(new Entry(i, RPM[i]));
-        }
-        ArrayList<Entry> avgRpmValues = new ArrayList<>();
-        for (int i = 0; i< AVG_RPM.length; i++) {
-            avgRpmValues.add(new Entry(i, AVG_RPM[i]));
-        }
-        ChartUtils.setRPMChartData(mRpmChart, rpmValues, avgRpmValues);
-
-        /////////////  bpm //////////////////////////
-        ArrayList<Entry> bmpValues = new ArrayList<>();
-        for (int i = 0; i< BPM.length; i++) {
-            bmpValues.add(new Entry(i, BPM[i]));
-        }
-        ChartUtils.setSingleLineChartData(mBpmChart,bmpValues , "BPM");
-        /////////////  bpm //////////////////////////
-
-        /////////////  apm //////////////////////////
-        ArrayList<Entry> apmValues = new ArrayList<>();
-        for (int i = 0; i< APM.length; i++) {
-            apmValues.add(new Entry(i, APM[i]));
-        }
-        ChartUtils.setSingleLineChartData(mApmChart,apmValues , "APM");
-        /////////////  apm //////////////////////////
-
-        /////////////  rpm pattern //////////////////////////
-        ArrayList<Entry> rpmPatternValues = new ArrayList<>();
-        for (int i = 0; i< RPM_PATTERN.length; i++) {
-            rpmPatternValues.add(new Entry(i, RPM_PATTERN[i]));
-        }
-        ChartUtils.setSingleLineChartData(mRpmPatternChart,rpmPatternValues , "RPM PATTERN");
-        /////////////   rpm pattern //////////////////////////
-
-        /////////////  rpm pattern //////////////////////////
-        ArrayList<Entry> distanceValues = new ArrayList<>();
-        for (int i = 0; i< DISTANCE.length; i++) {
-            distanceValues.add(new Entry(i, DISTANCE[i]));
-        }
-        ChartUtils.setSingleLineChartData(mDistanceChart,distanceValues , "DISTANCE");
-        /////////////   rpm pattern //////////////////////////
-
-
-        ////////////////  MOVEMENT fast or slow  //////////////////////
-        ArrayList<Entry> fastValues = new ArrayList<>();
-        for (int i = 0; i< MOVEMENTFAST.length; i++) {
-            fastValues.add(new Entry(i, MOVEMENTFAST[i]));
-        }
-        ChartUtils.setMovementChartData(mFastChart,fastValues,"MOVEMENT FAST" );
-        Drawable drawable = ContextCompat.getDrawable(this, R.color.chartLineColor);
-        ChartUtils.setChartFillDrawable(mFastChart, drawable);
-
-        ArrayList<Entry> slowValues = new ArrayList<>();
-        for (int i = 0; i< MOVEMENT_SLOW.length; i++) {
-            slowValues.add(new Entry(i, MOVEMENT_SLOW[i]));
-        }
-        ChartUtils.setMovementChartData(mSlowChart,slowValues,"MOVEMENT SLOW" );
-        ChartUtils.setChartFillDrawable(mSlowChart, drawable);
+//        ArrayList<Entry> rpmValues = new ArrayList<>();
+//        for (int i = 0; i< RPM.length; i++) {
+//            rpmValues.add(new Entry(i, RPM[i]));
+//        }
+//        ArrayList<Entry> avgRpmValues = new ArrayList<>();
+//        for (int i = 0; i< AVG_RPM.length; i++) {
+//            avgRpmValues.add(new Entry(i, AVG_RPM[i]));
+//        }
+//        ChartUtils.setRPMChartData(mRpmChart, rpmValues, avgRpmValues);
+//
+//        /////////////  bpm //////////////////////////
+//        ArrayList<Entry> bmpValues = new ArrayList<>();
+//        for (int i = 0; i< BPM.length; i++) {
+//            bmpValues.add(new Entry(i, BPM[i]));
+//        }
+//        ChartUtils.setSingleLineChartData(mBpmChart,bmpValues , "BPM");
+//        /////////////  bpm //////////////////////////
+//
+//        /////////////  apm //////////////////////////
+//        ArrayList<Entry> apmValues = new ArrayList<>();
+//        for (int i = 0; i< APM.length; i++) {
+//            apmValues.add(new Entry(i, APM[i]));
+//        }
+//        ChartUtils.setSingleLineChartData(mApmChart,apmValues , "APM");
+//        /////////////  apm //////////////////////////
+//
+//        /////////////  rpm pattern //////////////////////////
+//        ArrayList<Entry> rpmPatternValues = new ArrayList<>();
+//        for (int i = 0; i< RPM_PATTERN.length; i++) {
+//            rpmPatternValues.add(new Entry(i, RPM_PATTERN[i]));
+//        }
+//        ChartUtils.setSingleLineChartData(mRpmPatternChart,rpmPatternValues , "RPM PATTERN");
+//        /////////////   rpm pattern //////////////////////////
+//
+//        /////////////  rpm pattern //////////////////////////
+//        ArrayList<Entry> distanceValues = new ArrayList<>();
+//        for (int i = 0; i< DISTANCE.length; i++) {
+//            distanceValues.add(new Entry(i, DISTANCE[i]));
+//        }
+//        ChartUtils.setSingleLineChartData(mDistanceChart,distanceValues , "DISTANCE");
+//        /////////////   rpm pattern //////////////////////////
+//
+//
+//        ////////////////  MOVEMENT fast or slow  //////////////////////
+//        ArrayList<Entry> fastValues = new ArrayList<>();
+//        for (int i = 0; i< MOVEMENTFAST.length; i++) {
+//            fastValues.add(new Entry(i, MOVEMENTFAST[i]));
+//        }
+//        ChartUtils.setMovementChartData(mFastChart,fastValues,"MOVEMENT FAST" );
+//        Drawable drawable = ContextCompat.getDrawable(this, R.color.chartLineColor);
+//        ChartUtils.setChartFillDrawable(mFastChart, drawable);
+//
+//        ArrayList<Entry> slowValues = new ArrayList<>();
+//        for (int i = 0; i< MOVEMENT_SLOW.length; i++) {
+//            slowValues.add(new Entry(i, MOVEMENT_SLOW[i]));
+//        }
+//        ChartUtils.setMovementChartData(mSlowChart,slowValues,"MOVEMENT SLOW" );
+//        ChartUtils.setChartFillDrawable(mSlowChart, drawable);
     }
 
     private void initBlueTooth() {
@@ -1072,7 +1084,6 @@ public class MainActivity extends AppCompatActivity {
         bluetoothHelper.scan(new BluetoothHelper.OnScanListener() {
             @Override
             public void onStart() {
-
             }
 
             @Override
@@ -1084,7 +1095,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStop() {
                 isSearching = false;
-                for(BluetoothHelper.BluetoothInfo info : infoList) {
+                for (BluetoothHelper.BluetoothInfo info : infoList) {
 
                 }
 //                searchBtn.setText(R.string.search_searchBegin);
@@ -1118,7 +1129,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onConnected() {
                 Log.i("lite", "##########  onConnected ##########");
-                try{
+                try {
                     Thread.sleep(3000);
                 } catch (Exception ex) {
 
@@ -1195,18 +1206,231 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("lite", "##########  onReceived ##########");
                 String text = decodeData(data);
                 mContent += text;
-                Log.i("lite", "=====>>>> READ : " + mContent);
-//                writeFileSdcard("lite123456.txt", text);
-                mContent = mContent.substring(mContent.indexOf("{"));
-                String jsonStr = mContent.substring(0, mContent.indexOf("}")+1);
-                mContent = mContent.substring(mContent.indexOf("}")+1);
-                Log.i("lite", "=====>>>> jsonString : " + jsonStr);
-//                Log.i("lite", "=====>>>> READ : " + text);
-                DataBean bean = new Gson().fromJson(jsonStr, DataBean.class);
+                Log.i("lite", "=====>>>> size of text ==  : " + text.length());
+////                Log.i("lite", "=====>>>> text : " + text);
+                Log.i("lite", "=====>>>> mContent of text ==  : " + mContent.length());
 
-                Log.i("lite", "=====>>>> getAMP : " + bean.getAMP());
-                Log.i("lite", "=====>>>> getBPM : " + bean.getBPM());
-                Log.i("lite", "=====>>>> getDISTANCE : " + bean.getDISTANCE());
+//                writeFileSdcard("lite123456.txt", text);
+//                String[]  contentList = mContent.split("},{");
+                DataBean bean = null;
+                int  deleteCount = 0;
+                String tempStr =null;
+                String[] strarray = mContent.split("[}{]");
+                Log.i("lite", "=====>>>>strarray size " + strarray.length);
+                for (int i = 0; i < strarray.length; i++) {
+                    tempStr = strarray[i];
+
+                    if (tempStr.contains("RPMlist") &&
+                            tempStr.contains("DISTANCElist") &&
+                            tempStr.contains("RPMPATTERNlist") &&
+                            tempStr.contains("BPM") &&
+                            tempStr.contains("SLOW") &&
+                            tempStr.contains("PRESENCE") &&
+                            tempStr.contains("DISTANCE") &&
+                            tempStr.contains("AMP") &&
+                            tempStr.contains("FASTlist") &&
+                            tempStr.contains("RPMPATTERN") &&
+                            tempStr.contains("PRESENCElist") &&
+                            tempStr.contains("FAST") &&
+                            tempStr.contains("RPM") &&
+                            tempStr.contains("MOVEMENTSLOWlist") &&
+                            tempStr.contains("AVGRPMlist") &&
+                            tempStr.contains("SLOWlist") &&
+                            tempStr.contains("MOVEMENTFASTlist") &&
+                            tempStr.contains("AMPlist") &&
+                            tempStr.contains("BPMlist")) {
+                        try {
+                            tempStr = "{" + tempStr + "}";
+                            bean = new Gson().fromJson(tempStr, DataBean.class);
+//
+                            Log.i("lite", "=====>>>> getAMP : " + bean.getAMP());
+                            Log.i("lite", "=====>>>> getBPM : " + bean.getBPM());
+                            Log.i("lite", "=====>>>> getDISTANCE : " + bean.getDISTANCE());
+                        } catch (Exception ex) {
+                            Log.e("ERROR", ex.toString());
+                        }
+                        break;
+                    }
+                }
+                if (bean != null) {
+                    drawCount++;
+//                    mRpmChart.clear();
+                    String[] rpmList = bean.getRPMlist().split("_");
+                    String[] rpmAvgList = bean.getAVGRPMlist().split("_");
+                    rpmValues.clear();
+                    for (int j = 0; j < rpmList.length; j++) {
+                        float value = Float.valueOf(rpmList[j]);
+                        rpmValues.add(new Entry(j, value));
+                    }
+                    avgRpmValues.clear();
+                    for (int k = 0; k < rpmAvgList.length; k++) {
+                        float value = Float.valueOf(rpmAvgList[k]);
+                        avgRpmValues.add(new Entry(k, value));
+                    }
+                    ChartUtils.setRPMChartData(mRpmChart, rpmValues, avgRpmValues);
+//                    mRpmChart.invalidate();
+                    /////////////  bpm //////////////////////////
+
+                    String[] bpmList = bean.getBPMlist().split("_");
+                    bmpValues.clear();
+                    for (int i = 0; i < bpmList.length; i++) {
+                        float value = Float.valueOf(rpmAvgList[i]);
+                        bmpValues.add(new Entry(i, value));
+                    }
+//                    ChartUtils.setSingleLineChartData(mBpmChart, bmpValues, "BPM");
+                    ChartUtils.setChartData(mBpmChart, bmpValues);
+                    /////////////  bpm //////////////////////////
+//
+//        /////////////  apm //////////////////////////
+//
+                    String[] apmList = bean.getAMPlist().split("_");
+                    apmValues.clear();
+                    for (int i = 0; i < apmList.length; i++) {
+                        float value = Float.valueOf(apmList[i]);
+                        apmValues.add(new Entry(i, value));
+                    }
+                    ChartUtils.setSingleLineChartData(mApmChart, apmValues, "APM");
+//        /////////////  apm //////////////////////////
+//
+//        /////////////  rpm pattern //////////////////////////
+//        ArrayList<Entry> rpmPatternValues = new ArrayList<>();
+                    String[] rpmPatternList = bean.getRPMPATTERNlist().split("_");
+                    rpmPatternValues.clear();
+                    for (int i = 0; i < rpmPatternList.length; i++) {
+                        float value = Float.valueOf(rpmPatternList[i]);
+                        rpmPatternValues.add(new Entry(i, value));
+                    }
+                    ChartUtils.setSingleLineChartData(mRpmPatternChart, rpmPatternValues, "RPM PATTERN");
+//        /////////////   rpm pattern //////////////////////////
+//
+//        /////////////  rpm distance //////////////////////////
+//        ArrayList<Entry> distanceValues = new ArrayList<>();
+                    String[] distanceList = bean.getDISTANCElist().split("_");
+                    distanceValues.clear();
+                    for (int i = 0; i < distanceList.length; i++) {
+                        float value = Float.valueOf(distanceList[i]);
+                        distanceValues.add(new Entry(i, value));
+                    }
+                    ChartUtils.setSingleLineChartData(mDistanceChart, distanceValues, "DISTANCE");
+//        /////////////   rpm pattern //////////////////////////
+//
+//
+//        ////////////////  MOVEMENT fast or slow  //////////////////////
+//        ArrayList<Entry> fastValues = new ArrayList<>();
+                    String[] fastList = bean.getFASTlist().split("_");
+                    fastValues.clear();
+                    for (int i = 0; i < fastList.length; i++) {
+                        float value = Float.valueOf(fastList[i]);
+                        fastValues.add(new Entry(i,value));
+                    }
+        ChartUtils.setMovementChartData(mFastChart,fastValues,"MOVEMENT FAST" );
+        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.color.chartLineColor);
+        ChartUtils.setChartFillDrawable(mFastChart, drawable);
+                    mFastChart.invalidate();
+
+                    String[] slowList = bean.getSLOWlist().split("_");
+                    slowValues.clear();
+                    for (int i = 0; i < slowList.length; i++) {
+                        float value = Float.valueOf(slowList[i]);
+                        slowValues.add(new Entry(i,value));
+                    }
+                    ChartUtils.setMovementChartData(mSlowChart, slowValues, "MOVEMENT SLOW");
+                    ChartUtils.setChartFillDrawable(mSlowChart, drawable);
+                    mSlowChart.invalidate();
+//                    mContent = mContent.substring(tempStr.length());
+//                    deleteIndex = 0;
+                    Log.i("lite", "%%%%%%%%%%% drawCount : " + drawCount);
+                    return;
+                }
+
+//                if(strarray.length >= 3) {
+//                    String jsonStr = "{" + strarray[1] + "}";
+//                    System.out.println(jsonStr);
+//                          DataBean bean = new Gson().fromJson(jsonStr, DataBean.class);
+////
+//                            Log.i("lite", "=====>>>> getAMP : " + bean.getAMP());
+//                            Log.i("lite", "=====>>>> getBPM : " + bean.getBPM());
+//                            Log.i("lite", "=====>>>> getDISTANCE : " + bean.getDISTANCE());
+//                    mContent = mContent.substring( mContent.indexOf("}"));
+//                            return;
+//                }
+
+
+//                if (getKeyStringCount(mContent, key) >= 2) {
+//                    int index = 0;
+//                    int count = 0;
+//                    while ((index = mContent.indexOf(key, index)) != -1) {
+//                        index = index + key.length();//先在字符串找key 找到后 去掉前面包含key的部分 再在字串中找
+//                        count++;
+//                    }
+//                    StringTokenizer st = new StringTokenizer(mContent, "}{");
+//                    while (st.hasMoreTokens()) {
+//                        String str = st.nextToken();
+//                        System.out.println(str);
+//                        System.out.println("=====================");
+//
+//                        Log.i("lite", "=====>>>> token substring : " + str.substring(1, 7));
+//                        if (str.substring(1, 7).equals("AVGRPM")) {
+//                            String jsonStr = "{" + str + "}";
+////                mContent = mContent.substring(mContent.indexOf("}") + 1);
+//                            Log.i("lite", "=====>>>> jsonString : " + jsonStr);
+////                Log.i("lite", "=====>>>> READ : " + text);
+//                            DataBean bean = new Gson().fromJson(jsonStr, DataBean.class);
+//
+//                            Log.i("lite", "=====>>>> getAMP : " + bean.getAMP());
+//                            Log.i("lite", "=====>>>> getBPM : " + bean.getBPM());
+//                            Log.i("lite", "=====>>>> getDISTANCE : " + bean.getDISTANCE());
+//
+//                            String[] rpmList = bean.getRPMlist().split("_");
+//                            String[] rpmAvgList = bean.getAVGRPMlist().split("_");
+//
+//                            for (int i = 0; i < rpmList.length; i++) {
+//                                float value = Float.valueOf(rpmList[i]);
+//                                rpmValues.add(new Entry(i, value));
+//                            }
+//
+//                            for (int i = 0; i < rpmAvgList.length; i++) {
+//                                float value = Float.valueOf(rpmAvgList[i]);
+//                                avgRpmValues.add(new Entry(i, value));
+//                            }
+//                            ChartUtils.setRPMChartData(mRpmChart, rpmValues, avgRpmValues);
+//                            mContent = mContent.substring(mContent.indexOf("}"));
+//                        }
+//                    }
+//                }
+
+                int start = (mContent.indexOf("{"));
+                int end = (mContent.indexOf("}"));
+
+//                if (text.indexOf("}") > 0) {
+//                    System.out.println(mContent);
+//                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//                    System.out.println(text);
+//                    Log.i("lite", "@@@@@@@@@@@  =====>>>> end ==  : " + end);
+//                    System.out.println("finish -----> " + text.indexOf("}"));
+//
+//                    try {
+////                saveToSDCard("123.txt", content);
+//                        saveToSDCard("lite12345.txt", mContent);
+//                        Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+//                    } catch (Exception e) {
+//                        Toast.makeText(getApplicationContext(), "保存失败", Toast.LENGTH_SHORT).show();
+//                    }
+////                    System.exit(0);
+//                }
+
+                Log.i("lite", "=====>>>> start ==  : " + start);
+                Log.i("lite", "=====>>>> end ==  : " + end);
+
+                if (start < 0 || end < 0)
+                    return;
+                if (start >= end) {
+//                    mContent = mContent.substring(end);
+                    return;
+                }
+//                mContent = mContent.substring(start);
+
+
 //                readEditText.setText(text);
                 //  float f = Float.parseFloat(str)
             }
@@ -1223,15 +1447,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void saveToSDCard(String filename,String content) throws Exception{
-        File file=new File("/mnt/sdcard", filename);
-        OutputStream out=new FileOutputStream(file);
+    public void saveToSDCard(String filename, String content) throws Exception {
+        File file = new File(Environment.getExternalStorageDirectory().getPath(), filename);
+        OutputStream out = new FileOutputStream(file);
         out.write(content.getBytes());
         out.close();
     }
 
     /**
      * 将内容写入sd卡中
+     *
      * @param filename 要写入的文件名
      * @param content  待写入的内容
      * @throws IOException
@@ -1245,7 +1470,7 @@ public class MainActivity extends AppCompatActivity {
         if (storageState.equals(Environment.MEDIA_MOUNTED)) {
 
             //路径： /storage/emulated/0/Android/data/com.yoryky.demo/cache/yoryky.txt
-            filename = storageState  + File.separator + filename;
+            filename = storageState + File.separator + filename;
 
             FileOutputStream outputStream = new FileOutputStream(filename);
             outputStream.write(content.getBytes());
@@ -1253,17 +1478,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void writeFileSdcard(String fileName,String message){
-        try{
+    public void writeFileSdcard(String fileName, String message) {
+        try {
             //FileOutputStream fout = openFileOutput(fileName, MODE_PRIVATE);
             FileOutputStream fout = new FileOutputStream(fileName);
-            byte [] bytes = message.getBytes();
+            byte[] bytes = message.getBytes();
 
             fout.write(bytes);
             fout.close();
-        }
-
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -1282,17 +1505,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        String en=Environment.getExternalStorageState();
+        String en = Environment.getExternalStorageState();
         //获取SDCard状态,如果SDCard插入了手机且为非写保护状态
-        if(en.equals(Environment.MEDIA_MOUNTED)){
+        if (en.equals(Environment.MEDIA_MOUNTED)) {
             try {
 //                saveToSDCard("123.txt", content);
                 writeExternal(this, "123.txt", mContent);
                 Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "保存失败",  Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "保存失败", Toast.LENGTH_SHORT).show();
             }
-        }else{
+        } else {
             //提示用户SDCard不存在或者为写保护状态
             Toast.makeText(getApplicationContext(), "SDCard不存在或者为写保护状态", Toast.LENGTH_SHORT).show();
         }

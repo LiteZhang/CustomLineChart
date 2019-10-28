@@ -5,93 +5,57 @@ package com.apoorvasingh2810.linechartapp.bean;
  * @name Line-Chart-Android_App
  * @class name：com.apoorvasingh2810.linechartapp.bean
  * @class describe
- * @time 2019/10/28 9:52
+ * @time 2019/10/28 11:54
+ * @change
+ * @chang
+ * @class
  */
 public class New {
 
+
     /**
-     * RPMlist : RPMlist
-     * MOVEMENTSLOWlist :
-     * FASTlist :
-     * BPMlist :
-     * AMP : 0.067
-     * AVGRPM : 13.5
-     * SLOW : 8.60
-     * MOVEMENTFASTlist :
-     * PRESENCE : 1.0
-     * AMPlist :
-     * RPMPATTERN :
-     * RPMPATTERNlist : -2.6
+     * AVGRPM : 17.5
+     * MOVEMENTFASTlist : 0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.42_6.25_7.92_7.5_2.92_0.83_0.83_0.0_0.0_0.0_0.0_0.0_0.42_2.5_2.92_2.92_1.67_0.42_0.42_0.42_0.83_2.08_1.67_1.25_2.08_1.25_0.0_0.0_0.0_0.0_0.0_1.67_1.25_0.0_1.25_5.83_9.58_10.42_8.33_2.08_2.08_2.08_1.67_2.08_2.08_1.25_0.0
+     * AVGRPMlist : 7.5_7.0_8.5_10.0_11.0_10.5_11.5_13.0_12.5_13.0_13.5_15.5_16.5_17.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_17.5_17.0_16.5_16.0_15.5_15.0_15.0_13.5_12.0_10.5_9.5_8.5_7.5_8.5_9.0_9.5_9.0_9.0_9.0_8.5_8.5_9.5_11.0_12.0_13.0_12.5_12.5_11.5_10.5_9.5_8.5_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_11.0_13.5_16.0_18.5_21.0_22.5_23.0_23.0_23.0_23.0_20.5_19.0_17.5_16.0_14.5_13.0_14.0_15.0_15.0_15.0_14.5_14.0_13.5_13.0_13.5_14.0_14.5_13.5_12.5_11.5_12.0_12.5_13.5_16.0_19.5_23.0_22.5_20.0_19.5_19.0_17.5
+     * PRESENCElist : 1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0_1.0
+     * BPM : 0.0
+     * DISTANCElist : 2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.97_2.61_2.56_2.61_2.56_2.61_3.48_2.61_2.61_2.61_2.61_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48_3.48
+     * DISTANCE : 3.48
+     * BPMlist : 0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0
+     * AMPlist : 0.02_0.03_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.02_0.01_0.02_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.0_0.01_0.01_0.01_0.01_0.0_0.01_0.01_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.01_0.0_0.0_0.0_0.0_0.01_0.0_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01_0.01
+     * RPMPATTERNlist : -1.5
      * RPM : 18.0
-     * PRESENCElist :
-     * DISTANCE : 0.50
-     * BPM : 85.9
-     * AVGRPMlist :
-     * DISTANCElist :
-     * FAST : 13.98
-     * SLOWlist :
+     * RPMlist : 6.0_6.0_15.0_15.0_15.0_6.0_12.0_15.0_12.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_18.0_15.0_15.0_15.0_15.0_15.0_15.0_15.0_6.0_6.0_6.0_9.0_9.0_9.0_12.0_9.0_9.0_6.0_9.0_9.0_9.0_9.0_15.0_15.0_15.0_15.0_6.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_9.0_21.0_24.0_24.0_24.0_24.0_18.0_24.0_24.0_24.0_24.0_9.0_9.0_15.0_15.0_15.0_15.0_15.0_15.0_15.0_15.0_12.0_12.0_12.0_12.0_18.0_18.0_15.0_6.0_6.0_6.0_21.0_21.0_21.0_21.0_27.0_27.0_18.0_6.0_18.0_18.0_18.0
+     * RPMPATTERN : -0.45_-0.98_1.87_-2.62_1.36_1.82_-0.88_-1.87_2.03_1.97_-0.44_-0.12_2.12_-0.88_1.88_-2.03_-2.54_1.43_1.83_-1.12_1.46_-1.05_1.84_-1.19_1.71_-1.43_2.1_-2.79_-0.6_1.4_-1.14_1.65_-2.18_1.8_1.99_-1.19_1.6_-2.86_-0.31_1.31_1.79_1.36_-2.43_-0.09_1.44_1.85_1.66_-0.81_-1.94_-0.03_-1.99_1.72_-2.36_1.36_-2.49_-1.3_1.47_-1.35_1.4_-0.76_-3.05_1.92_-0.07_-2.84_1.22_1.56_-2.06_1.44_1.52_-1.49_1.15_-0.19_-1.97_-1.51_-0.99_0.73_1.92_1.26_-1.85_1.55_1.71_1.61_1.44_-1.14_-1.98_-2.61_1.46_1.25_-2.15_-2.13_0.92_0.93_-2.51_-2.11_0.92_-2.73_-1.78_0.98_-2.68_1.59_-0.02_-1.87_1.75_1.63_1.72_-1.42_-0.64_1.93_-0.36_1.71_1.84_2.15_1.64_1.87_-1.08_-2.03_-0.85_1.78_-1.23_-1.48
+     * AMP : 0.007
+     * FAST : 1.08
+     * SLOWlist : 4.3_3.23_5.38_6.45_8.6_8.6_8.6_10.75_10.75_8.6_11.83_12.9_11.83_10.75_9.68_6.45_6.45_6.45_5.38_5.38_3.23_1.08_0.0_0.0_7.53_10.75_13.98_15.05_15.05_15.05_15.05_13.98_11.83_9.68_5.38_4.3_3.23_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_3.23_4.3_6.45_7.53_7.53_7.53_7.53_5.38_4.3_1.08_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_1.08_2.15_3.23_3.23_4.3_5.38_6.45_7.53_7.53_9.68_11.83_13.98_15.05_19.35_21.51_22.58_20.43_21.51_22.58_22.58_21.51_20.43_18.28_13.98_12.9_13.98_12.9_11.83_10.75_9.68_8.6_8.6_8.6_10.75_10.75_10.75_10.75_10.75_11.83_11.83_10.75_11.83_10.75_7.53_6.45_6.45
+     * SLOW : 6.45
+     * MOVEMENTSLOWlist : 0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.12_0.38_0.25_0.25_0.0_0.0_0.12_0.12_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.12_1.5_3.62_5.38_6.62_7.75_11.5_13.0_11.88_6.88_4.12_3.0_1.88_1.38_1.38_1.62_1.5_1.38_1.5_3.25_3.38_2.88_3.0_3.0_3.0_3.0_2.75_1.38_2.75_4.25_3.88_2.5_1.62_1.38_1.5_2.38_4.5_5.62_6.25_9.88_15.88_20.5_21.88_20.5_15.12_4.12_5.0_4.62_3.75_2.75_2.12_1.62
+     * PRESENCE : 1.0
+     * FASTlist : 5.38_7.53_9.68_10.75_7.53_2.15_0.0_0.0_2.15_1.08_0.0_2.15_0.0_1.08_0.0_0.0_0.0_0.0_0.0_0.0_6.45_12.9_12.9_8.6_5.38_3.23_0.0_0.0_0.0_0.0_1.08_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_1.08_3.23_5.38_2.15_2.15_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_0.0_2.15_3.23_3.23_3.23_6.45_6.45_6.45_7.53_12.9_11.83_9.68_8.6_13.98_17.2_15.05_4.3_0.0_8.6_11.83_11.83_10.75_9.68_9.68_7.53_7.53_6.45_4.3_2.15_2.15_2.15_7.53_8.6_6.45_6.45_6.45_9.68_3.23_3.23_4.3_6.45_5.38_6.45_3.23_0.0_0.0_0.0_0.0_0.0_1.08
      */
 
-    private String RPMlist;
-    private String MOVEMENTSLOWlist;
-    private String FASTlist;
-    private String BPMlist;
-    private String AMP;
     private String AVGRPM;
-    private String SLOW;
     private String MOVEMENTFASTlist;
-    private String PRESENCE;
+    private String AVGRPMlist;
+    private String PRESENCElist;
+    private String BPM;
+    private String DISTANCElist;
+    private String DISTANCE;
+    private String BPMlist;
     private String AMPlist;
-    private String RPMPATTERN;
     private String RPMPATTERNlist;
     private String RPM;
-    private String PRESENCElist;
-    private String DISTANCE;
-    private String BPM;
-    private String AVGRPMlist;
-    private String DISTANCElist;
+    private String RPMlist;
+    private String RPMPATTERN;
+    private String AMP;
     private String FAST;
     private String SLOWlist;
-
-    public String getRPMlist() {
-        return RPMlist;
-    }
-
-    public void setRPMlist(String RPMlist) {
-        this.RPMlist = RPMlist;
-    }
-
-    public String getMOVEMENTSLOWlist() {
-        return MOVEMENTSLOWlist;
-    }
-
-    public void setMOVEMENTSLOWlist(String MOVEMENTSLOWlist) {
-        this.MOVEMENTSLOWlist = MOVEMENTSLOWlist;
-    }
-
-    public String getFASTlist() {
-        return FASTlist;
-    }
-
-    public void setFASTlist(String FASTlist) {
-        this.FASTlist = FASTlist;
-    }
-
-    public String getBPMlist() {
-        return BPMlist;
-    }
-
-    public void setBPMlist(String BPMlist) {
-        this.BPMlist = BPMlist;
-    }
-
-    public String getAMP() {
-        return AMP;
-    }
-
-    public void setAMP(String AMP) {
-        this.AMP = AMP;
-    }
+    private String SLOW;
+    private String MOVEMENTSLOWlist;
+    private String PRESENCE;
+    private String FASTlist;
 
     public String getAVGRPM() {
         return AVGRPM;
@@ -99,14 +63,6 @@ public class New {
 
     public void setAVGRPM(String AVGRPM) {
         this.AVGRPM = AVGRPM;
-    }
-
-    public String getSLOW() {
-        return SLOW;
-    }
-
-    public void setSLOW(String SLOW) {
-        this.SLOW = SLOW;
     }
 
     public String getMOVEMENTFASTlist() {
@@ -117,12 +73,52 @@ public class New {
         this.MOVEMENTFASTlist = MOVEMENTFASTlist;
     }
 
-    public String getPRESENCE() {
-        return PRESENCE;
+    public String getAVGRPMlist() {
+        return AVGRPMlist;
     }
 
-    public void setPRESENCE(String PRESENCE) {
-        this.PRESENCE = PRESENCE;
+    public void setAVGRPMlist(String AVGRPMlist) {
+        this.AVGRPMlist = AVGRPMlist;
+    }
+
+    public String getPRESENCElist() {
+        return PRESENCElist;
+    }
+
+    public void setPRESENCElist(String PRESENCElist) {
+        this.PRESENCElist = PRESENCElist;
+    }
+
+    public String getBPM() {
+        return BPM;
+    }
+
+    public void setBPM(String BPM) {
+        this.BPM = BPM;
+    }
+
+    public String getDISTANCElist() {
+        return DISTANCElist;
+    }
+
+    public void setDISTANCElist(String DISTANCElist) {
+        this.DISTANCElist = DISTANCElist;
+    }
+
+    public String getDISTANCE() {
+        return DISTANCE;
+    }
+
+    public void setDISTANCE(String DISTANCE) {
+        this.DISTANCE = DISTANCE;
+    }
+
+    public String getBPMlist() {
+        return BPMlist;
+    }
+
+    public void setBPMlist(String BPMlist) {
+        this.BPMlist = BPMlist;
     }
 
     public String getAMPlist() {
@@ -131,14 +127,6 @@ public class New {
 
     public void setAMPlist(String AMPlist) {
         this.AMPlist = AMPlist;
-    }
-
-    public String getRPMPATTERN() {
-        return RPMPATTERN;
-    }
-
-    public void setRPMPATTERN(String RPMPATTERN) {
-        this.RPMPATTERN = RPMPATTERN;
     }
 
     public String getRPMPATTERNlist() {
@@ -157,44 +145,28 @@ public class New {
         this.RPM = RPM;
     }
 
-    public String getPRESENCElist() {
-        return PRESENCElist;
+    public String getRPMlist() {
+        return RPMlist;
     }
 
-    public void setPRESENCElist(String PRESENCElist) {
-        this.PRESENCElist = PRESENCElist;
+    public void setRPMlist(String RPMlist) {
+        this.RPMlist = RPMlist;
     }
 
-    public String getDISTANCE() {
-        return DISTANCE;
+    public String getRPMPATTERN() {
+        return RPMPATTERN;
     }
 
-    public void setDISTANCE(String DISTANCE) {
-        this.DISTANCE = DISTANCE;
+    public void setRPMPATTERN(String RPMPATTERN) {
+        this.RPMPATTERN = RPMPATTERN;
     }
 
-    public String getBPM() {
-        return BPM;
+    public String getAMP() {
+        return AMP;
     }
 
-    public void setBPM(String BPM) {
-        this.BPM = BPM;
-    }
-
-    public String getAVGRPMlist() {
-        return AVGRPMlist;
-    }
-
-    public void setAVGRPMlist(String AVGRPMlist) {
-        this.AVGRPMlist = AVGRPMlist;
-    }
-
-    public String getDISTANCElist() {
-        return DISTANCElist;
-    }
-
-    public void setDISTANCElist(String DISTANCElist) {
-        this.DISTANCElist = DISTANCElist;
+    public void setAMP(String AMP) {
+        this.AMP = AMP;
     }
 
     public String getFAST() {
@@ -211,5 +183,37 @@ public class New {
 
     public void setSLOWlist(String SLOWlist) {
         this.SLOWlist = SLOWlist;
+    }
+
+    public String getSLOW() {
+        return SLOW;
+    }
+
+    public void setSLOW(String SLOW) {
+        this.SLOW = SLOW;
+    }
+
+    public String getMOVEMENTSLOWlist() {
+        return MOVEMENTSLOWlist;
+    }
+
+    public void setMOVEMENTSLOWlist(String MOVEMENTSLOWlist) {
+        this.MOVEMENTSLOWlist = MOVEMENTSLOWlist;
+    }
+
+    public String getPRESENCE() {
+        return PRESENCE;
+    }
+
+    public void setPRESENCE(String PRESENCE) {
+        this.PRESENCE = PRESENCE;
+    }
+
+    public String getFASTlist() {
+        return FASTlist;
+    }
+
+    public void setFASTlist(String FASTlist) {
+        this.FASTlist = FASTlist;
     }
 }
